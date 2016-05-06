@@ -1,0 +1,12 @@
+services:
+  - test-service0
+  - test-service1
+  - test-service2
+
+networks:
+  - network1
+  - network2
+
+labels:
+  - net.elv.service
+  - deprecated.label

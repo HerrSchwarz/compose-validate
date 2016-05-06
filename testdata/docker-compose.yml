@@ -1,0 +1,17 @@
+version: '2'
+
+volumes:
+  - test-volume: {}
+
+services:
+  test-service1:
+    image: test
+    labels:
+      - label1: value1
+      - label2: value2
+  test-service2:
+    build:
+      context: ../Dockerfiles/waytogoodservice
+    networks:
+      - net1
+      - net2
