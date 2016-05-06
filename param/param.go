@@ -12,7 +12,7 @@ type Params struct {
 
 func Init() (Params) {
   var configFile = flag.StringP("config", "c", "docker-compose.yml", "docker-compose file to validate")
-  var ruleFile = flag.StringP("rules", "f", "validation.yml", "file describing the validation rules")
+  var ruleFile = flag.StringP("rules", "r", "validation.yml", "file describing the validation rules")
   var verbose = flag.BoolP("verbose", "v", false, "more output")
   params := Params{configFile, ruleFile, verbose}
 
