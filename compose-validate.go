@@ -20,11 +20,8 @@ func check(e error) {
 func main() {
   var params = param.Init()
 
-  configData, errC := ioutil.ReadFile(*params.ConfigFile)
-  validate, errV := ioutil.ReadFile(*params.RuleFile)
-
-  check(errC)
-  check(errV)
+  var configData = readData(*params.ConfigFile)
+  var validate   = readData(*params.RuleFile)
 
   var rules validation.Rule
   var config compose.Config
@@ -47,6 +44,12 @@ func main() {
   }
 }
 
+func readData(fileName string) ([]byte) {
+  data, err := ioutil.ReadFile(fileName)
+  check(err)
+  return data
+}
+
 func validateServices(services map[string]compose.Service, s string, verbose bool) (int) {
   var errors int
   if _, present := services[s]; present {
@@ -54,7 +57,7 @@ func validateServices(services map[string]compose.Service, s string, verbose boo
       fmt.Printf("\nservice %s found\n", s)
     }
   } else {
-    fmt.Printf("service %s not found\n", s)
+    fmt.Printf("\nservice %s not found\n", s)
     errors++
   }
   return errors
