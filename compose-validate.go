@@ -35,7 +35,7 @@ func main() {
   for _, s := range rules.Services {
     errors += validateServices(config.Services, s, *params.Verbose)
     for _, l := range rules.Labels {
-      errors += validateNetwork(config.Services[s], l, *params.Verbose)
+      errors += validateLabel(config.Services[s], l, *params.Verbose)
     }
   }
 
@@ -60,7 +60,7 @@ func validateServices(services map[string]compose.Service, s string, verbose boo
   return errors
 }
 
-func validateNetwork(s compose.Service, l string, verbose bool) (int) {
+func validateLabel(s compose.Service, l string, verbose bool) (int) {
   var errors int
   if _, present := s.Labels[l]; present {
     if verbose {
