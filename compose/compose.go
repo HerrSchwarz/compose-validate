@@ -5,4 +5,6 @@ type Config struct {
   Services map[string]Service
 }
 
-type Service struct {}
+type Service struct {
+  Labels map[string]string
+}

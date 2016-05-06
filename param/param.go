@@ -28,7 +28,7 @@ func Init() (Params) {
     fmt.Printf("\n%s\n", strings.Repeat("=", l))
     fmt.Printf("config : %s\n", *params.ConfigFile)
     fmt.Printf(" rules : %s\n", *params.RuleFile)
-    fmt.Printf("%s\n\n", strings.Repeat("=", l))
+    fmt.Printf("%s\n", strings.Repeat("=", l))
   }
 
   return params
