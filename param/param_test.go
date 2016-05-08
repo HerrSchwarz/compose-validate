@@ -2,20 +2,36 @@ package param
 
 import (
 	"testing"
+	"os"
+
 	"github.com/herrschwarz/compose-validate-local/param"
 )
 
-func TestInit(t *testing.T) {
-	var params = param.Init()
-	if *params.ConfigFile != "docker-compose.yml" {
-		t.Fail()
-	}
+var p param.Params
 
-	if *params.RuleFile != "validate.yml" {
-		t.Fail()
-	}
+func TestMain(m *testing.M) {
+	p = param.Init()
+	os.Exit(m.Run())
+}
 
-	if *params.Verbose {
-		t.Fail()
+func TestConfig(t *testing.T) {
+	const configFileDefault = "docker-compose.yml"
+	if *p.ConfigFile != configFileDefault {
+		t.Error("default value for configFile is ", *p.ConfigFile,
+		"Expected", configFileDefault)
+	}
+}
+
+func TestRule(t *testing.T) {
+	const ruleFileDefault = "validation.yml"
+	if *p.RuleFile != ruleFileDefault {
+		t.Error("default value for ruleFile is ", *p.RuleFile,
+			"Expected", ruleFileDefault)
+	}
+}
+
+func TestVerbode(t *testing.T) {
+	if *p.Verbose {
+		t.Error("default value for verbose is true, expected false")
 	}
 }
