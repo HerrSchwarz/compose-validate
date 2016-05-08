@@ -4,25 +4,36 @@ import ("fmt"
 	"strings"
 	flag "github.com/ogier/pflag")
 
-type Params struct {
+type Parameter struct {
   ConfigFile *string
   RuleFile *string
   Verbose *bool
 }
 
-func Init() (Params) {
+func Init() (Parameter) {
+  params := createParams()
+  setUsage()
+  flag.Parse()
+  printConfig(params)
+  return params
+}
+
+func createParams() (Parameter) {
   var configFile = flag.StringP("config", "c", "docker-compose.yml", "docker-compose file to validate")
   var ruleFile = flag.StringP("rules", "r", "validation.yml", "file describing the validation rules")
   var verbose = flag.BoolP("verbose", "v", false, "more output")
-  params := Params{configFile, ruleFile, verbose}
+  params := Parameter{configFile, ruleFile, verbose}
+  return params
+}
 
+func setUsage() {
   flag.Usage = func() {
     fmt.Println("Usage: compose-validate --config <docker-compose config> --rules <rule file>")
     flag.PrintDefaults()
   }
+}
 
-  flag.Parse()
-
+func printConfig(params Parameter) {
   if (*params.Verbose) {
     var l int = 9 + max(len(*params.ConfigFile), len(*params.RuleFile))
     fmt.Printf("\n%s\n", strings.Repeat("=", l))
@@ -30,8 +41,6 @@ func Init() (Params) {
     fmt.Printf(" rules : %s\n", *params.RuleFile)
     fmt.Printf("%s\n", strings.Repeat("=", l))
   }
-
-  return params
 }
 
 func max(a, b int) (int) {
