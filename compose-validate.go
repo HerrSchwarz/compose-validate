@@ -3,6 +3,7 @@ package main
 import ("fmt"
 	"io/ioutil"
 	"os"
+        gc "github.com/daviddengcn/go-colortext"
 
 	"github.com/herrschwarz/compose-validate/validation"
 	"github.com/herrschwarz/compose-validate/compose"
@@ -40,10 +41,14 @@ func main() {
   }
 
   if errors > 0 {
-    fmt.Printf("validation failed\n\n")
+    gc.Foreground(gc.Red, false)
+    fmt.Printf("\nvalidation failed\n\n")
+    gc.ResetColor()
     os.Exit(1)
   } else {
-    fmt.Printf("validation successful\n\n")
+    gc.Foreground(gc.Green, false)
+    fmt.Printf("\nvalidation successful\n\n")
+    gc.ResetColor()
   }
 }
 
@@ -83,7 +88,7 @@ func validateNetwork(s compose.Service, n string, verbose bool) (int) {
   var errors int
   if _, present := s.Networks[n]; present {
     if verbose {
-      fmt.Printf("service %s has label %s\n", s, n)
+      fmt.Printf("service %s has network %s\n", s, n)
     }
   } else {
     fmt.Printf("service %s should have network %s, but network is not present!\n", s, n)
