@@ -34,6 +34,9 @@ func main() {
     for _, l := range rules.Labels {
       errors += validateLabel(config.Services[s], l, *params.Verbose)
     }
+    for _, n := range rules.Networks {
+      errors += validateNetwork(config.Services[s], n, *params.Verbose)
+    }
   }
 
   if errors > 0 {
@@ -71,6 +74,19 @@ func validateLabel(s compose.Service, l string, verbose bool) (int) {
     }
   } else {
     fmt.Printf("service %s should have label %s, but label is not present!\n", s, l)
+    errors++
+  }
+  return errors
+}
+
+func validateNetwork(s compose.Service, n string, verbose bool) (int) {
+  var errors int
+  if _, present := s.Networks[n]; present {
+    if verbose {
+      fmt.Printf("service %s has label %s\n", s, n)
+    }
+  } else {
+    fmt.Printf("service %s should have network %s, but network is not present!\n", s, n)
     errors++
   }
   return errors
