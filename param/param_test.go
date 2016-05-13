@@ -2,9 +2,12 @@ package param
 
 import (
 	"testing"
+	flag "github.com/ogier/pflag"
+	"os"
 )
 
 func TestInit(t *testing.T) {
+	flag.CommandLine = flag.NewFlagSet(os.Args[0], flag.ContinueOnError)
 	var p Parameter = Init()
 	const configFileDefault = "docker-compose.yml"
 	if *p.ConfigFile != configFileDefault {
