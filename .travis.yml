@@ -1,13 +1,11 @@
 language: go
 
 go:
-  - 1.5.1
   - tip
 
-script: go get github.com/herrschwarz/compose-validate && go test -v ./...
-
-script:
- - go test -v ./...
+script: 
+  - go get github.com/herrschwarz/compose-validate 
+  - go test -v ./...
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
