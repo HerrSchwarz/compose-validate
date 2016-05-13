@@ -4,7 +4,6 @@ go:
   - tip
 
 script: 
-  - go get github.com/herrschwarz/compose-validate 
   - go test -v ./...
 
 after_success:
