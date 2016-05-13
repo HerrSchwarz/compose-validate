@@ -25,3 +25,11 @@ func TestInit(t *testing.T) {
 		t.Error("default value for verbose is true, expected false")
 	}
 }
+
+func TestPrintConfig(t *testing.T) {
+	var config = "config"
+	var rule = "rules"
+	var verbose = true
+	var p Parameter = Parameter{&config, &rule, &verbose}
+	printConfig(p)
+}
