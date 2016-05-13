@@ -4,7 +4,7 @@ import (
 	"testing"
 	"os"
 
-	"github.com/herrschwarz/compose-validate-local/param"
+	"github.com/herrschwarz/compose-validate/param"
 )
 
 var p param.Params
