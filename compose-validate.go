@@ -24,32 +24,22 @@ func main() {
   var configData = readData(*params.ConfigFile)
   var validate   = readData(*params.RuleFile)
 
-  var rules validation.Rule
+  var ruleSet validation.RuleSet
   var config compose.Config
-  yaml.Unmarshal(validate, &rules)
+  yaml.Unmarshal(validate, &ruleSet)
   yaml.Unmarshal(configData, &config)
+  var services = config.Services
 
-  var errors int
-  for _, s := range rules.Services {
-    errors += validateServices(config.Services, s, *params.Verbose)
-    for _, l := range rules.Labels {
-      errors += validateLabel(config.Services[s], l, *params.Verbose)
-    }
-    for _, n := range rules.Networks {
-      errors += validateNetwork(config.Services[s], n, *params.Verbose)
-    }
+  fmt.Println(config)
+
+  if (*params.Verbose) {
+    fmt.Printf("\ndocker-compose file version: %s\n", config.Version)
+    fmt.Printf("Found %d rules\n", len(ruleSet.Rules))
   }
 
-  if errors > 0 {
-    gc.Foreground(gc.Red, false)
-    fmt.Printf("\nvalidation failed\n\n")
-    gc.ResetColor()
-    os.Exit(1)
-  } else {
-    gc.Foreground(gc.Green, false)
-    fmt.Printf("\nvalidation successful\n\n")
-    gc.ResetColor()
-  }
+  var errors = validateRules(ruleSet.Rules, services, *params.Verbose)
+  printResult(errors)
+
 }
 
 func readData(fileName string) ([]byte) {
@@ -57,6 +47,7 @@ func readData(fileName string) ([]byte) {
   check(err)
   return data
 }
+
 
 func validateServices(services map[string]compose.Service, s string, verbose bool) (int) {
   var errors int
@@ -97,3 +88,32 @@ func validateNetwork(s compose.Service, n string, verbose bool) (int) {
   return errors
 }
 
+func validateRules(rules map[string]validation.Rule, services map[string]compose.Service, verbose bool) (int) {
+  var errors int
+  for name, rule := range rules {
+    fmt.Printf("\nValidating %s:\n", name)
+    for _, s := range rule.Services {
+      errors += validateServices(services, s, verbose)
+      for _, l := range rule.Labels {
+        errors += validateLabel(services[s], l, verbose)
+      }
+      for _, n := range rule.Networks {
+        errors += validateNetwork(services[s], n, verbose)
+      }
+    }
+  }
+  return errors
+}
+
+func printResult(errors int) {
+  if errors > 0 {
+    gc.Foreground(gc.Red, false)
+    fmt.Printf("\nvalidation failed\n\n")
+    gc.ResetColor()
+    os.Exit(1)
+  } else {
+    gc.Foreground(gc.Green, false)
+    fmt.Printf("\nvalidation successful\n\n")
+    gc.ResetColor()
+  }
+}
