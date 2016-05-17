@@ -4,10 +4,6 @@ import ("fmt"
 	"io/ioutil"
 	"os"
 
-	"github.com/herrschwarz/compose-validate/validation"
-	"github.com/herrschwarz/compose-validate/compose"
-	"github.com/herrschwarz/compose-validate/param"
-
         "gopkg.in/yaml.v2"
        )
 

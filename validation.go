@@ -1,4 +1,4 @@
-package validation
+package main
 
 type Rule struct {
   Services []string
