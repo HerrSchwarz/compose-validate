@@ -5,12 +5,12 @@ import ("fmt"
 	"os"
         gc "github.com/daviddengcn/go-colortext"
 
-	"github.com/herrschwarz/compose-validate/validation"
-	"github.com/herrschwarz/compose-validate/compose"
-	"github.com/herrschwarz/compose-validate/param"
-
         "gopkg.in/yaml.v2"
-       )
+
+  "github.com/herrschwarz/compose-validate-save/param"
+  "github.com/herrschwarz/compose-validate-save/validation"
+  "github.com/herrschwarz/compose-validate-save/compose"
+)
 
 func check(e error) {
     if e != nil {
