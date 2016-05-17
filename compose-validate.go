@@ -3,13 +3,8 @@ package main
 import ("fmt"
 	"io/ioutil"
 	"os"
-        gc "github.com/daviddengcn/go-colortext"
-
         "gopkg.in/yaml.v2"
-
-  "github.com/herrschwarz/compose-validate-save/param"
-  "github.com/herrschwarz/compose-validate-save/validation"
-  "github.com/herrschwarz/compose-validate-save/compose"
+        gc "github.com/daviddengcn/go-colortext"
 )
 
 func check(e error) {
@@ -19,13 +14,13 @@ func check(e error) {
 }
 
 func main() {
-  var params = param.Init()
+  var params = Init()
 
   var configData = readData(*params.ConfigFile)
   var validate   = readData(*params.RuleFile)
 
-  var ruleSet validation.RuleSet
-  var config compose.Config
+  var ruleSet RuleSet
+  var config Config
   yaml.Unmarshal(validate, &ruleSet)
   yaml.Unmarshal(configData, &config)
   var services = config.Services
@@ -49,7 +44,7 @@ func readData(fileName string) ([]byte) {
 }
 
 
-func validateServices(services map[string]compose.Service, s string, verbose bool) (int) {
+func validateServices(services map[string]Service, s string, verbose bool) (int) {
   var errors int
   if _, present := services[s]; present {
     if verbose {
@@ -62,7 +57,7 @@ func validateServices(services map[string]compose.Service, s string, verbose boo
   return errors
 }
 
-func validateLabel(s compose.Service, l string, verbose bool) (int) {
+func validateLabel(s Service, l string, verbose bool) (int) {
   var errors int
   if _, present := s.Labels[l]; present {
     if verbose {
@@ -75,7 +70,7 @@ func validateLabel(s compose.Service, l string, verbose bool) (int) {
   return errors
 }
 
-func validateNetwork(s compose.Service, n string, verbose bool) (int) {
+func validateNetwork(s Service, n string, verbose bool) (int) {
   var errors int
   if _, present := s.Networks[n]; present {
     if verbose {
@@ -88,7 +83,7 @@ func validateNetwork(s compose.Service, n string, verbose bool) (int) {
   return errors
 }
 
-func validateRules(rules map[string]validation.Rule, services map[string]compose.Service, verbose bool) (int) {
+func validateRules(rules map[string]Rule, services map[string]Service, verbose bool) (int) {
   var errors int
   for name, rule := range rules {
     fmt.Printf("\nValidating %s:\n", name)
