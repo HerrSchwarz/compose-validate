@@ -1,9 +1,9 @@
 language: go
 
-go: tip
+go: 1.5.1
 install:
-  - go clean
-  - go get -v -d -t ./...
+  - go clean -x
+  - go get -v -t ./...
 script:
   - go build ./...
   - ./test.sh
