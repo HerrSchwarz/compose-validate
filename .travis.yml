@@ -4,6 +4,7 @@ go: 1.5.1
 install:
   - go clean -x
   - go get -v -t ./...
+  - go get github.com/herrschwarz/compose-validate
 script:
   - go build ./...
   - ./test.sh
