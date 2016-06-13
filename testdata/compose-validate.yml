@@ -1,12 +1,26 @@
-services:
-  - test-service0
-  - test-service1
-  - test-service2
+rules:
+  frontend:
+    services:
+      - test-service1
+      - test-service2
 
-networks:
-  - network1
-  - network2
+    networks:
+      - network1
+      - network2
 
-labels:
-  - net.elv.service
-  - deprecated.label
+    labels:
+      - label1
+      - label2
+      - deprecated.label
+
+  backend:
+    services:
+      - test-service0
+
+    networks:
+      - network1
+      - network2
+
+    labels:
+      - net.elv.service
+      - deprecated.label

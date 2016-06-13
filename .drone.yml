@@ -1,0 +1,7 @@
+build:
+  image: golang:1.5.1
+  commands:
+    - go env
+    - go get -v -t ./...
+    - go build ./...
+    - ./test.sh

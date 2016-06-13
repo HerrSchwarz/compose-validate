@@ -5,13 +5,12 @@ volumes:
 
 services:
   test-service1:
-    image: test
     labels:
-      - label1: value1
-      - label2: value2
+      label1: value1
+      label2: value2
   test-service2:
     build:
       context: ../Dockerfiles/waytogoodservice
     networks:
-      - net1
-      - net2
+      net1: null
+      net2: null

@@ -1,6 +1,17 @@
-language: go
+dist: trusty
+sudo: false
 
-go: tip
-install: go get -v -t ./...
-script: ./test.sh
+language: go
+go: 1.5.1
+go_import_path: github.com/herrschwarz/compose-validate
+
+install:
+  - go clean -x
+  - go get github.com/herrschwarz/compose-validate/...
+  - go get -v -t ./...
+
+script:
+  - go build -a -x ./...
+  - ./test.sh
+
 after_success: bash <(curl -s https://codecov.io/bash)
