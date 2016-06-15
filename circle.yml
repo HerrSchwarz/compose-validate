@@ -19,6 +19,5 @@ test:
   override:
     - go test
   post:
-    - install --mode 755 ${PROJECT_WORKSPACE}/bin/compose-validate $CIRCLE_ARTIFACTS
-
-
+    - chmod 755 ${PROJECT_WORKSPACE}/bin/${REPO}
+    - tar --creat --gzip --file ${PROJECT_WORKSPACE}/bin/${REPO}.tar.gz ${CIRCLE_ARTIFACTS}/${REPO}
