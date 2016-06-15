@@ -1,6 +1,6 @@
 machine:
   environment:
-    GOPATH: "~/.go_workspace:/usr/local/go_workspace:${HOME}/.go_project"
+    GOPATH: "$HOME/.go_workspace:/usr/local/go_workspace:${HOME}/.go_project"
 
 dependencies:
   override:
