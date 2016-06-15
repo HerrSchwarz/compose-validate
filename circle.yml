@@ -19,6 +19,6 @@ test:
   override:
     - go test
   post:
-    - install ${PROJECT_WORKSPACE}/bin/compose-validate $CIRCLE_ARTIFACTS
+    - install --mode 755 ${PROJECT_WORKSPACE}/bin/compose-validate $CIRCLE_ARTIFACTS
 
 
