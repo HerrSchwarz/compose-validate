@@ -5,7 +5,7 @@ machine:
     GOPATH: "${LIB_WORKSPACE}:${PROJECT_WORKSPACE}"
     REPO: compose-validate
     USER_PATH: github.com/herrschwarz
-    PACKAGE: USER_PATH/${REPO}
+    PACKAGE: ${USER_PATH}/${REPO}
 
 dependencies:
   pre:
