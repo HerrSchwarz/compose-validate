@@ -1,6 +1,6 @@
 machine:
   environment:
-    PROJECT_WORKSPACE: "HOME}/.go_project" 
+    PROJECT_WORKSPACE: "${HOME}/.go_project" 
     LIB_WORKSPACE: "${HOME}/.go_workspace"
     GOPATH: "${LIB_WORKSPACE}:${PROJECT_WORKSPACE}"
 
