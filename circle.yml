@@ -20,4 +20,4 @@ test:
     - go test
   post:
     - chmod 755 ${PROJECT_WORKSPACE}/bin/${REPO}
-    - tar --creat --gzip --file ${PROJECT_WORKSPACE}/bin/${REPO}.tar.gz ${CIRCLE_ARTIFACTS}/${REPO}
+    - tar --creat --gzip --file ${CIRCLE_ARTIFACTS}/${REPO}.tar.gz ${PROJECT_WORKSPACE}/bin/${REPO}
