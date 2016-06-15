@@ -3,15 +3,15 @@ machine:
     PROJECT_WORKSPACE: "${HOME}/.go_project" 
     LIB_WORKSPACE: "${HOME}/.go_workspace"
     GOPATH: "${LIB_WORKSPACE}:${PROJECT_WORKSPACE}"
+    PACKAGE: github.com/herrschwarz/compose-validate
 
 dependencies:
   pre:
-    - install --directory "${PROJECT_WORKSPACE}/src/github.com/herrschwarz"
-    - ln -s ~/compose-validate "${PROJECT_WORKSPACE}/src/github.com/herrschwarz/compose-validate"
-    - cd ${PROJECT_WORKSPACE}/src/github.com/herrschwarz/compose-validate
+    - install --directory "${PROJECT_WORKSPACE}/src/${PACKAGE}"
+    - ln -s ~/compose-validate "${PROJECT_WORKSPACE}/src/${PACKAGE}"
   override:
-    - go get -t -d -v ./...
-    - go install -v
+    - go get -t -d -v ${PACKAGE}
+    - go install -v ${PACKAGE}
 
 test:
   override:
