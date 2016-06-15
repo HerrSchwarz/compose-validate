@@ -1,7 +1,7 @@
 machine:
   environment:
-    PROJECT_WORKSPACE: "${HOME}/.go_project" 
-    LIB_WORSPACE: "${HOME}/.go_workspace"
+    PROJECT_WORKSPACE: "HOME}/.go_project" 
+    LIB_WORKSPACE: "${HOME}/.go_workspace"
     GOPATH: "${LIB_WORKSPACE}:${PROJECT_WORKSPACE}"
 
 dependencies:
