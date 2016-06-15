@@ -6,9 +6,11 @@ machine:
     REPO: compose-validate
     USER_PATH: github.com/herrschwarz
     PACKAGE: ${USER_PATH}/${REPO}
+    ARCHIVE_NAME: ${CIRCLE_ARTIFACTS}/${REPO}-${CIRCLE_BUILD_NUM}.tar.gz
 
 dependencies:
   pre:
+    - rm -f ${PROJECT_WORKSPACE}/bin/${REPO}
     - install --directory "${PROJECT_WORKSPACE}/src/${USER_PATH}"
     - ln -s ~/compose-validate "${PROJECT_WORKSPACE}/src/${PACKAGE}"
   override:
@@ -20,4 +22,4 @@ test:
     - go test
   post:
     - chmod 755 ${PROJECT_WORKSPACE}/bin/${REPO}
-    - tar --create --gzip --directory ${PROJECT_WORKSPACE}/bin --file ${CIRCLE_ARTIFACTS}/${REPO}.tar.gz ${REPO}
+    - tar --create --gzip --directory ${PROJECT_WORKSPACE}/bin --file ${ARCHIVE_NAME}  ${REPO}
