@@ -1,8 +1,14 @@
 machine:
   environment:
-    GOPATH: "$HOME/.go_workspace:/usr/local/go_workspace:${HOME}/.go_project"
+    PROJECT_WORKSPACE: "${HOME}/.go_project" 
+    LIB_WORSPACE: "${HOME}/.go_workspace"
+    GOPATH: "${LIB_WORKSPACE}:${PROJECT_WORKSPACE}
 
 dependencies:
+  pre:
+    - install --directory "${PROJECT_WORKSPACE}/src/github.com/herrschwarz"
+    - ln -s ~/compose-validate "${PROJECT_WORKSPACE}/src/github.com/herrschwarz/compose-validate"
+    - cd ${PROJECT_WORKSPACE}/src/github.com/herrschwarz/compose-validate
   override:
     - go get -t -d -v ./...
     - go install -v
