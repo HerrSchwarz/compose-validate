@@ -16,5 +16,7 @@ dependencies:
 test:
   override:
     - go test
+  post:
+    - install ${PROJECT_WORKSPACE}/bin/compose-validate $CIRCLE_ARTIFACTS
 
 
