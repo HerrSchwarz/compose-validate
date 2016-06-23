@@ -1,6 +1,6 @@
 # compose-validate
 
-[![Build Status](https://travis-ci.org/HerrSchwarz/compose-validate.svg?branch=develop)](https://travis-ci.org/HerrSchwarz/compose-validate) [![Circle CI] (https://circleci.com/gh/HerrSchwarz/compose-validate.png?style=shield&circle-token=a1708741450afe114a9717a6718d05d897707397)
+[![Build Status](https://travis-ci.org/HerrSchwarz/compose-validate.svg?branch=develop)](https://travis-ci.org/HerrSchwarz/compose-validate) [![Circle CI] (https://circleci.com/gh/HerrSchwarz/compose-validate.png?style=shield&circle-token=a1708741450afe114a9717a6718d05d897707397)](https://circleci.com/gh/HerrSchwarz/compose-validate)
 
 [![codecov](https://codecov.io/gh/HerrSchwarz/compose-validate/branch/develop/graph/badge.svg)](https://codecov.io/gh/HerrSchwarz/compose-validate)
 
