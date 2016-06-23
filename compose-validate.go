@@ -4,7 +4,6 @@ import ("fmt"
 	"io/ioutil"
 	"os"
         "gopkg.in/yaml.v2"
-        gc "github.com/daviddengcn/go-colortext"
 )
 
 func check(e error) {
@@ -23,6 +22,11 @@ func main() {
   var config Config
   yaml.Unmarshal(validate, &ruleSet)
   yaml.Unmarshal(configData, &config)
+  var ruleSetErrors = checkRuleSet(ruleSet)
+  if ruleSetErrors > 0 {
+    logError("found errors in rule set. Please fix the errors and restart validation.")
+    os.Exit(2)
+  }
   var services = config.Services
 
   fmt.Println(config)
@@ -47,37 +51,42 @@ func readData(fileName string) ([]byte) {
 func validateServices(services map[string]Service, s string, verbose bool) (int) {
   var errors int
   if _, present := services[s]; present {
-    if verbose {
-      fmt.Printf("\nservice %s found\n", s)
-    }
+    logVerbose("service " + s + " found", verbose)
   } else {
-    fmt.Printf("\nservice %s not found\n", s)
+    logError("service " + s + " not found\n")
     errors++
   }
   return errors
 }
 
-func validateLabel(s Service, l string, verbose bool) (int) {
+func validateLabel(name string, s Service, l string, verbose bool) (int) {
   var errors int
   if _, present := s.Labels[l]; present {
-    if verbose {
-      fmt.Printf("service %s has label %s\n", s, l)
-    }
+    logVerbose("service " + name + " has label " + l, verbose)
   } else {
-    fmt.Printf("service %s should have label %s, but label is not present!\n", s, l)
+    logError("service " + name + " should have label " + l + ", but label is not present!")
     errors++
   }
   return errors
 }
 
-func validateNetwork(s Service, n string, verbose bool) (int) {
+func validateNetwork(name string, s Service, n string, verbose bool) (int) {
   var errors int
   if _, present := s.Networks[n]; present {
-    if verbose {
-      fmt.Printf("service %s has network %s\n", s, n)
-    }
+    logVerbose("servicehas network " + n, verbose)
   } else {
-    fmt.Printf("service %s should have network %s, but network is not present!\n", s, n)
+    logError("service " + name + " should have network " + n + ", but network is not present!")
+    errors++
+  }
+  return errors
+}
+
+func validateNetworkMode(name string, s Service, net_mode string, verbose bool) (int) {
+  var errors int
+  if s.Network_mode == net_mode {
+      logVerbose("service " + name + " has network mode " + net_mode, verbose)
+  } else {
+    logError("service " + name + " should have network mode " + net_mode + ", but is " + s.Network_mode)
     errors++
   }
   return errors
@@ -90,11 +99,12 @@ func validateRules(rules map[string]Rule, services map[string]Service, verbose b
     for _, s := range rule.Services {
       errors += validateServices(services, s, verbose)
       for _, l := range rule.Labels {
-        errors += validateLabel(services[s], l, verbose)
+        errors += validateLabel(s, services[s], l, verbose)
       }
       for _, n := range rule.Networks {
-        errors += validateNetwork(services[s], n, verbose)
+        errors += validateNetwork(s, services[s], n, verbose)
       }
+      errors += validateNetworkMode(s, services[s], rule.Network_mode, verbose)
     }
   }
   return errors
@@ -102,13 +112,9 @@ func validateRules(rules map[string]Rule, services map[string]Service, verbose b
 
 func printResult(errors int) {
   if errors > 0 {
-    gc.Foreground(gc.Red, false)
-    fmt.Printf("\nvalidation failed\n\n")
-    gc.ResetColor()
+    logError("\nvalidation failed\n\n")
     os.Exit(1)
   } else {
-    gc.Foreground(gc.Green, false)
-    fmt.Printf("\nvalidation successful\n\n")
-    gc.ResetColor()
+    logSuccess("\nvalidation successful\n\n")
   }
 }

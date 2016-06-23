@@ -8,4 +8,5 @@ type Config struct {
 type Service struct {
   Labels map[string]string
   Networks map[string]string
+  Network_mode string
 }
