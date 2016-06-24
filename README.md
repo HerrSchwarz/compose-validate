@@ -15,7 +15,7 @@ Ever found yourself write a bunch of docker-compose files, ending up with hundre
 
 Let's do the math. We assume, a project has:
 
-- 15 Services (five micro-services, mysql, registrator, swarm-agent, swarm-master, consul, consul-template, heka, elasticsearch, kibana, curator)
+- 15 Services (four micro-service deployment services, apache, mysql, registrator, swarm-agent, swarm-master, consul, consul-template, heka, elasticsearch, kibana, curator)
 - each Service has a compose file with 20 lines
 - we have five environments:
   - local (for development)
@@ -25,7 +25,7 @@ Let's do the math. We assume, a project has:
   - live
 - there are specific diferences between the environments (e.g. sizing)
 
-There would be 15 * 20 * 5=1500 lines of compose config. And projects can easily be bigger.
+There would be 15 * 20 * 5 = 1500 lines of compose config. And projects can easily be bigger.
 
 ## validation rules
 
@@ -45,14 +45,30 @@ rules:
       - SERVICE_NAME
       - health-check-port
   
-  backend_service:
+  backend_services:
     services:
       - admin
-      - graphite
-       -splunk
+      - api
+      - elasticsearch
+      - kibana
+      - swarm-agent
+      - swarm-master
+      - consul
+      - consul-template
+      - heka
     network_mode: host
     labels:
       - SERVICE_NAME
+      
+  deployment-services:
+    services:
+      - micro-service-1
+      - micro-service-2
+      - micro-service-3
+      - micro-service-4
+    network_mode: none
+    labels:
+      - SERIVCE_IGNORE
 ```
 
 The idea is to find services, which are similar and to validate the similiar properties. Maybe some services should be in the same network or all services should have some labels present.
