@@ -25,7 +25,7 @@ Let's do the math. We assume, a project has:
   - live
 - there are specific diferences between the environments (e.g. sizing)
 
-There would be 15*20*5=1500 lines of compose config. And projects can easily be bigger.
+There would be 15 * 20 * 5=1500 lines of compose config. And projects can easily be bigger.
 
 ## validation rules
 
